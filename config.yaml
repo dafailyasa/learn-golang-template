@@ -1,0 +1,19 @@
+app:
+  name: 'golang-template'
+  env: 'production'
+  port: 3000
+jwt: 
+  accessTokenExpired: '8h'
+  refreshTokenExpired: '12h'
+  secretKey: "AKUSAYANGKAMUSHDAJSBD0923482knksbdnksldsskdfjdsk#$%^&*$%^&*#$%^&$%^&"
+database: 
+  username: 'root'
+  password: 'dafa'
+  host: 'localhost'
+  port: 3306
+  autoMigration: true
+  name: 'golang-template'
+  pool: 
+    idle: 10
+    max: 100
+    lifetime: 300

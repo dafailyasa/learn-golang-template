@@ -40,7 +40,10 @@ func NewDatabase(viper *viper.Viper) *gorm.DB {
 	// auth migration
 	autoMigrate := viper.GetBool("database.autoMigration")
 	if autoMigrate {
-		db.AutoMigrate(&entity.User{})
+		err := db.AutoMigrate(&entity.User{})
+		if err != nil {
+			log.Fatalf("Failed to run auto migration: %v", err)
+		}
 	}
 
 	return db

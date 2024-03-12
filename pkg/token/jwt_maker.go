@@ -48,10 +48,10 @@ func (maker *JwtMaker) VerifyToken(token string) (*CustomClaim, error) {
 		return nil, err
 	}
 
-	payload, ok := jwtToken.Claims.(*CustomClaim)
+	claims, ok := jwtToken.Claims.(*CustomClaim)
 	if !ok {
 		return nil, customErr.ErrInvalidToken
 	}
 
-	return payload, nil
+	return claims, nil
 }

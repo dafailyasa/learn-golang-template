@@ -11,10 +11,12 @@ var (
 	ErrEmailDuplicate = errors.New("email has been taken, please use another email")
 	// ErrIncorrectPassword is returned when password inccorect
 	ErrIncorrectPassword = errors.New("incorrect password")
-	//ErrFailedCreateAccessToken is returned when access token failed to create
+	// ErrFailedCreateAccessToken is returned when access token failed to create
 	ErrFailedCreateAccessToken = errors.New("failed to create access token")
-	//ErrFailedCreateRefreshToken is returned when refresh token failed to create
+	// ErrFailedCreateRefreshToken is returned when refresh token failed to create
 	ErrFailedCreateRefreshToken = errors.New("failed to create refresh token")
-	//ErrUserNotFound is returned when user was not found
+	// ErrUserNotFound is returned when user was not found
 	ErrUserNotFound = errors.New("user was not found")
+	// ErrToManyRequest is returned when limiter reached
+	ErrToManyRequest = errors.New("to many request")
 )

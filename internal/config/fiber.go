@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"time"
 
+	customErr "github.com/dafailyasa/learn-golang-template/pkg/custom-errors"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/limiter"
 	"github.com/spf13/viper"
@@ -27,7 +28,9 @@ func NewFiber(config *viper.Viper) *Fiber {
 		Expiration: 10 * time.Second,
 		Max:        3,
 		LimitReached: func(c *fiber.Ctx) error {
-			return c.Status(fiber.StatusTooManyRequests).JSON(fiber.Map{"errors": "Too Many Requests"})
+			return c.Status(fiber.StatusTooManyRequests).JSON(fiber.Map{
+				"errors": customErr.ErrToManyRequest.Error(),
+			})
 		},
 	}))
 

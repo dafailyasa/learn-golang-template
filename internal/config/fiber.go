@@ -2,8 +2,10 @@ package config
 
 import (
 	"fmt"
+	"time"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/limiter"
 	"github.com/spf13/viper"
 )
 
@@ -19,6 +21,12 @@ func NewFiber(config *viper.Viper) *Fiber {
 		Prefork:           config.GetBool("web.prefork"),
 		EnablePrintRoutes: true,
 	})
+
+	// app limiter
+	app.Use(limiter.New(limiter.Config{
+		Expiration: 10 * time.Second,
+		Max:        3,
+	}))
 
 	return &Fiber{
 		Fiber:  app,

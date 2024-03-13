@@ -6,6 +6,7 @@ import (
 
 	customErr "github.com/dafailyasa/learn-golang-template/pkg/custom-errors"
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/limiter"
 	"github.com/spf13/viper"
 )
@@ -23,10 +24,12 @@ func NewFiber(config *viper.Viper) *Fiber {
 		EnablePrintRoutes: true,
 	})
 
+	app.Use(cors.New())
+
 	// app limiter
 	app.Use(limiter.New(limiter.Config{
 		Expiration: 10 * time.Second,
-		Max:        3,
+		Max:        5,
 		LimitReached: func(c *fiber.Ctx) error {
 			return c.Status(fiber.StatusTooManyRequests).JSON(fiber.Map{
 				"errors": customErr.ErrToManyRequest.Error(),

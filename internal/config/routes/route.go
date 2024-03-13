@@ -24,6 +24,6 @@ func (r *RouteConfig) PublicRoute() {
 func (r *RouteConfig) PrivateRoute() {
 	v1Prefix := r.App.Group("/api/v1")
 
-	v1Prefix.Post("/auth/register", r.AuthHandler.RegisterUser)
-	v1Prefix.Post("/auth/login", r.AuthHandler.LoginUser)
+	// auth route
+	r.AuthRoutes(v1Prefix)
 }

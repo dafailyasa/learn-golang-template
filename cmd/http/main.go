@@ -24,6 +24,6 @@ func main() {
 	})
 
 	if err := app.Run(); err != nil {
-		fmt.Println(err)
+		panic(fmt.Errorf("failed to run app: %v", err))
 	}
 }

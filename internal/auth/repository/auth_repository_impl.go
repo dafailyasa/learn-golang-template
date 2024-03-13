@@ -6,27 +6,29 @@ import (
 	"gorm.io/gorm"
 )
 
-type AuthRepository struct {
+type authRepository struct {
 	DB *gorm.DB
 }
 
-func NewAuthRepository(db *gorm.DB) AuthRepository {
-	return AuthRepository{
+func NewAuthRepository(db *gorm.DB) *authRepository {
+	return &authRepository{
 		DB: db,
 	}
 }
 
-func (r *AuthRepository) FindOneByEmail(email string) (entity.User, error) {
+var _ AuthRepository = (*authRepository)(nil)
+
+func (r *authRepository) FindOneByEmail(email string) (*entity.User, error) {
 	var user entity.User
 
 	if err := r.DB.Model(&entity.User{}).Where("email = ?", email).Find(&user).Error; err != nil {
-		return user, err
+		return &user, err
 	}
 
-	return user, nil
+	return &user, nil
 }
 
-func (r *AuthRepository) Create(user *entity.User) error {
+func (r *authRepository) Create(user *entity.User) error {
 	user.ID = uuid.NewString()
 	if err := r.DB.Model(&entity.User{}).Create(user).Error; err != nil {
 		return err

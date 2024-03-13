@@ -3,7 +3,7 @@ app:
   env: 'dev'
   port: 3000
 web:
-  prefork: true
+  prefork: false
 jwt: 
   accessTokenExpired: '8h'
   refreshTokenExpired: '12h'

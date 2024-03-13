@@ -9,7 +9,6 @@ import (
 	customErr "github.com/dafailyasa/learn-golang-template/pkg/custom-errors"
 	"github.com/dafailyasa/learn-golang-template/pkg/token"
 	util "github.com/dafailyasa/learn-golang-template/utils"
-	"github.com/go-playground/validator/v10"
 	"github.com/spf13/viper"
 	"gorm.io/gorm"
 )
@@ -17,26 +16,20 @@ import (
 type authService struct {
 	DB         *gorm.DB
 	AuthRepo   repository.AuthRepository
-	Validate   *validator.Validate
 	Config     *viper.Viper
 	TokenMaker token.Maker
 }
 
-func NewAuthService(authRepo repository.AuthRepository, db *gorm.DB, validate *validator.Validate, token token.Maker, config *viper.Viper) *authService {
+func NewAuthService(authRepo repository.AuthRepository, db *gorm.DB, token token.Maker, config *viper.Viper) *authService {
 	return &authService{
 		AuthRepo:   authRepo,
 		DB:         db,
-		Validate:   validate,
 		Config:     config,
 		TokenMaker: token,
 	}
 }
 
 func (s *authService) Create(body *model.AuthRegisterRequest) error {
-	if err := s.Validate.Struct(body); err != nil {
-		return err
-	}
-
 	hashedPass, err := util.HashPassword(body.Password)
 	if err != nil {
 		return err
@@ -57,10 +50,6 @@ func (s *authService) Create(body *model.AuthRegisterRequest) error {
 }
 
 func (s *authService) Login(body *model.AuthLoginRequest) (*model.LoginUserResponse, error) {
-	if err := s.Validate.Struct(body); err != nil {
-		return nil, err
-	}
-
 	user, err := s.AuthRepo.FindOneByEmail(body.Email)
 	if err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {

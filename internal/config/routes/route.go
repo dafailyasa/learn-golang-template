@@ -17,6 +17,7 @@ func (r *RouteConfig) Setup() {
 }
 
 func (r *RouteConfig) PublicRoute() {
+	r.App.Get("/", func(ctx *fiber.Ctx) error { return ctx.Status(fiber.StatusOK).SendString("Golang Template") })
 	r.App.Get("/metrics", monitor.New(monitor.Config{Title: "Golang Template Metrics"}))
 }
 
@@ -25,5 +26,4 @@ func (r *RouteConfig) PrivateRoute() {
 
 	v1Prefix.Post("/auth/register", r.AuthHandler.RegisterUser)
 	v1Prefix.Post("/auth/login", r.AuthHandler.LoginUser)
-
 }

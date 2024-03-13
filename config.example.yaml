@@ -2,6 +2,8 @@ app:
   name: 'golang-template'
   env: 'dev'
   port: 3000
+web:
+  prefork: true
 jwt: 
   accessTokenExpired: '8h'
   refreshTokenExpired: '12h'

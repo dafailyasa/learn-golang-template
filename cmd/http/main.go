@@ -5,13 +5,14 @@ import (
 
 	"github.com/dafailyasa/learn-golang-template/internal/config"
 	"github.com/dafailyasa/learn-golang-template/pkg/logger"
+	"github.com/dafailyasa/learn-golang-template/pkg/validator"
 )
 
 func main() {
 	viperConfig := config.NewViper()
 	db := config.NewDatabase(viperConfig)
 	logger := logger.NewLogger(viperConfig)
-	validate := config.NewValidator()
+	validate := validator.NewValidator()
 	app := config.NewFiber(viperConfig)
 
 	config.Bootstrap(&config.BootstrapConfig{

@@ -9,7 +9,7 @@ import (
 	"github.com/dafailyasa/learn-golang-template/internal/config/routes"
 	"github.com/dafailyasa/learn-golang-template/pkg/logger"
 	"github.com/dafailyasa/learn-golang-template/pkg/token"
-	"github.com/go-playground/validator/v10"
+	"github.com/dafailyasa/learn-golang-template/pkg/validator"
 	"github.com/gofiber/fiber/v2"
 	"github.com/spf13/viper"
 	"gorm.io/gorm"
@@ -19,7 +19,7 @@ type BootstrapConfig struct {
 	DB       *gorm.DB
 	App      *fiber.App
 	Config   *viper.Viper
-	Validate *validator.Validate
+	Validate *validator.Validator
 	Logger   *logger.Logger
 }
 
@@ -33,10 +33,10 @@ func Bootstrap(config *BootstrapConfig) {
 	authRepo := repository.NewAuthRepository(config.DB)
 
 	// service
-	authService := service.NewAuthService(authRepo, config.DB, config.Validate, tokenMaker, config.Config)
+	authService := service.NewAuthService(authRepo, config.DB, tokenMaker, config.Config)
 
 	// handler
-	authHandler := handler.NewAuthHandler(authService)
+	authHandler := handler.NewAuthHandler(authService, config.Validate)
 
 	routeConfig := routes.RouteConfig{
 		App:         config.App,

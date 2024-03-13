@@ -26,6 +26,9 @@ func NewFiber(config *viper.Viper) *Fiber {
 	app.Use(limiter.New(limiter.Config{
 		Expiration: 10 * time.Second,
 		Max:        3,
+		LimitReached: func(c *fiber.Ctx) error {
+			return c.Status(fiber.StatusTooManyRequests).JSON(fiber.Map{"errors": "Too Many Requests"})
+		},
 	}))
 
 	return &Fiber{

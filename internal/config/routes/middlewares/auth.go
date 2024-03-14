@@ -35,7 +35,10 @@ func NewAuth(maker token.Maker) fiber.Handler {
 		token := field[1]
 		payload, err := maker.VerifyToken(token)
 		if err != nil {
-			ctx.Status(fiber.StatusUnauthorized).JSON(util.ApiResponse{Errors: err.Error()})
+			if err := ctx.Status(fiber.StatusUnauthorized).JSON(util.ApiResponse{Errors: err.Error()}); err != nil {
+				return err
+			}
+			return nil
 		}
 
 		ctx.Locals(authorizationPayloadKey, payload)

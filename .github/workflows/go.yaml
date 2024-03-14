@@ -28,4 +28,4 @@ jobs:
           version: latest
 
       - name: run test
-        run:  ./scripts/run-test.sh
+        run:  go test -v -cover ./...

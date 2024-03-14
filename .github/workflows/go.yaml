@@ -28,4 +28,5 @@ jobs:
           version: latest
 
       - name: run test
-        run:  go test -v -cover ./...
+        run:  chmod +x ./scripts/run-test.sh
+

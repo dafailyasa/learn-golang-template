@@ -40,6 +40,7 @@ func Bootstrap(config *BootstrapConfig) {
 
 	routeConfig := routes.RouteConfig{
 		App:         config.App,
+		Maker:       tokenMaker,
 		AuthHandler: &authHandler,
 	}
 

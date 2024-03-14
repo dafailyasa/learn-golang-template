@@ -21,7 +21,6 @@ func NewLogger(viper *viper.Viper) *Logger {
 	build, _ := zap.Build()
 	sugar := build.Sugar()
 
-	sugar.Error()
 	return &Logger{
 		Sugar: sugar,
 	}

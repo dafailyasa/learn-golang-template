@@ -28,4 +28,4 @@ jobs:
           version: latest
 
       - name: run test
-        run:  make ./scripts/run-test.sh
+        run:  ./scripts/run-test.sh

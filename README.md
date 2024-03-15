@@ -1,4 +1,4 @@
-# Golang Template (Fiber & Mongo) 🚀
+# Golang Template (Fiber & MYSQL) 🚀
 
 All the project is based in interfaces that mean you can implement your own logic and use it in the project. And this project structure references to [Golang Standard Layout.](https://github.com/golang-standards/project-layout) 
 

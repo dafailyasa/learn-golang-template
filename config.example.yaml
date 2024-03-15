@@ -4,6 +4,7 @@ app:
   port: 3000
 web:
   prefork: false
+  printRoute: true
 jwt: 
   accessTokenExpired: '8h'
   refreshTokenExpired: '12h'

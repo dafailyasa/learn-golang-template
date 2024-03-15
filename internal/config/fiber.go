@@ -21,7 +21,7 @@ func NewFiber(config *viper.Viper) *Fiber {
 		AppName:           config.GetString("app.name"),
 		ErrorHandler:      NewErrorHandler(),
 		Prefork:           config.GetBool("web.prefork"),
-		EnablePrintRoutes: true,
+		EnablePrintRoutes: config.GetBool("web.printRoute"),
 	})
 
 	app.Use(cors.New())

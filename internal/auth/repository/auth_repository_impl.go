@@ -2,7 +2,6 @@ package repository
 
 import (
 	"github.com/dafailyasa/learn-golang-template/internal/auth/entity"
-	"github.com/google/uuid"
 	"gorm.io/gorm"
 )
 
@@ -29,7 +28,6 @@ func (r *authRepository) FindOneByEmail(email string) (*entity.User, error) {
 }
 
 func (r *authRepository) Create(user *entity.User) error {
-	user.ID = uuid.NewString()
 	if err := r.DB.Model(&entity.User{}).Create(user).Error; err != nil {
 		return err
 	}

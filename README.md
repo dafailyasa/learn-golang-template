@@ -9,17 +9,20 @@ All the project is based in interfaces that mean you can implement your own logi
 - Logger: [Zap ⚡](https://github.com/uber-go/zap)
 - Deploy: [Docker 🐳](https://www.docker.com)
 - CI: [Github Actions 🐙](https://docs.github.com/en/actions)
+- Migration [Golang Migrate 🔄](https://github.com/golang-migrate/migrate)
 
 ## Before The Execution
 - Copy & modify the file `config.example.yaml` with your own parameters config
 
-## Command Runner
-- `./scripts/run.sh` for running app 
-- `./scripts/run-worker.sh` running worker producer with kafka
-- `./scripts/run-lint.sh` linters runner 
-- `./scripts/run-container.sh` run with docker
-- `./scripts/generate-coverage-report.sh` generate test coverage result report
-- `./scripts/run-test.sh` running unit testing
+## Command Runner (with Makefile)
+- `make server-dev` for running app
+- `make lint` linters runner
+- `make test-coverage` generate test coverage result report
+- `make test` running unit testing
+- `make migrateup` running migration with all
+- `make migrateup1` running with new single migration up
+- `make migratedown` running migration with drop all
+- `make migratedown1` running with drop single migration down
 
 ## Commit type
 

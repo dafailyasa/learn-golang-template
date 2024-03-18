@@ -11,6 +11,9 @@
 # Igonre config.yaml 
 config.yaml
 
+# Ignore folders
+build/
+
 # Test binary, built with `go test -c`
 *.test
 

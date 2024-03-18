@@ -1,8 +1,8 @@
 package tools
 
 import (
-	"math/rand"
-
+	"crypto/rand"
+	"math/big"
 	"strings"
 )
 
@@ -10,11 +10,16 @@ const alphabet = "abcdefghijklmnopqrstuvwqyz"
 
 func RandomString(n int) string {
 	var sb strings.Builder
-	k := len(alphabet)
+	k := big.NewInt(int64(len(alphabet)))
 
 	for i := 0; i < n; i++ {
-		c := alphabet[rand.Intn(k)]
-		sb.WriteByte(c)
+		randomIndex, err := rand.Int(rand.Reader, k)
+		if err != nil {
+			// Handle error
+			return ""
+		}
+		c := alphabet[randomIndex.Int64()]
+		sb.WriteByte(byte(c))
 	}
 
 	return sb.String()

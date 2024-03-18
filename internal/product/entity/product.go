@@ -9,13 +9,15 @@ import (
 )
 
 type Product struct {
-	ID        uuid.UUID      `gorm:"column:id;primaryKey;size:36"`
-	Name      string         `gorm:"column:name;size:191;not null"`
-	Stock     int            `gorm:"column:stock;default:0"`
-	Images    datatypes.JSON `gorm:"type:text[];not null"`
-	UserID    uuid.UUID      `gorm:"size:36"`
-	CreatedAt time.Time      `gorm:"column:created_at"`
-	UpdatedAt time.Time      `gorm:"column:updated_at"`
+	ID          uuid.UUID      `gorm:"column:id;primaryKey;size:36"`
+	Name        string         `gorm:"column:name;size:191;notnull"`
+	Stock       uint32         `gorm:"column:stock;notnull;default:0"`
+	Images      datatypes.JSON `gorm:"type:text[];notnull"`
+	Price       float64        `gorm:"column:price;type:bigint; notnull"`
+	IsPublished bool           `json:"omitempty" gorm:"column:isPublished;default:false;type:bool;comment:0 = false 1 = true"`
+	UserID      uuid.UUID      `gorm:"size:36"`
+	CreatedAt   time.Time      `gorm:"column:created_at"`
+	UpdatedAt   time.Time      `gorm:"column:updated_at"`
 }
 
 // TableName overrides the table name used

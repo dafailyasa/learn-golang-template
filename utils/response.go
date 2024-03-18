@@ -6,8 +6,8 @@ type ApiResponse struct {
 }
 
 type PaginatioResponse struct {
-	Data interface{} `json:"data,omitempty"`
-	Meta interface{} `json:"meta,omitempty"`
+	Data interface{}  `json:"data,omitempty"`
+	Meta PageMetadata `json:"meta,omitempty"`
 }
 
 type PageMetadata struct {

@@ -1,4 +1,4 @@
-name: Go Workflows
+name: Run Check Lint & Test
 on:
   push:
     tags:

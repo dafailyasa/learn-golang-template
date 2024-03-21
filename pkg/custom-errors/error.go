@@ -25,4 +25,6 @@ var (
 	ErrInvalidHeaderFormat = errors.New("invalid authorization header format")
 	// ErrUnsupportAuthType is returned when unsupported authorization type
 	ErrUnsupportAuthType = errors.New("unsupported authorization type")
+	// ErrUserWasNotFound is returned when user is not found
+	ErrUserWasNotFound = errors.New("user was not found")
 )

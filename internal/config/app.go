@@ -3,10 +3,13 @@ package config
 import (
 	"fmt"
 
-	"github.com/dafailyasa/learn-golang-template/internal/auth/handler"
-	"github.com/dafailyasa/learn-golang-template/internal/auth/repository"
-	"github.com/dafailyasa/learn-golang-template/internal/auth/service"
+	authHdl "github.com/dafailyasa/learn-golang-template/internal/auth/handler"
+	auth "github.com/dafailyasa/learn-golang-template/internal/auth/repository"
+	authService "github.com/dafailyasa/learn-golang-template/internal/auth/service"
 	"github.com/dafailyasa/learn-golang-template/internal/config/routes"
+	productHdl "github.com/dafailyasa/learn-golang-template/internal/product/handler"
+	product "github.com/dafailyasa/learn-golang-template/internal/product/repository"
+	"github.com/dafailyasa/learn-golang-template/internal/product/service"
 	"github.com/dafailyasa/learn-golang-template/pkg/logger"
 	"github.com/dafailyasa/learn-golang-template/pkg/token"
 	"github.com/dafailyasa/learn-golang-template/pkg/validator"
@@ -30,18 +33,22 @@ func Bootstrap(config *BootstrapConfig) {
 	}
 
 	// repository
-	authRepo := repository.NewAuthRepository(config.DB)
+	authRepo := auth.NewAuthRepository(config.DB)
+	productRepo := product.NewProductRepository(config.DB)
 
 	// service
-	authService := service.NewAuthService(authRepo, config.DB, tokenMaker, config.Config)
+	authService := authService.NewAuthService(authRepo, config.DB, tokenMaker, config.Config)
+	productService := service.NewProductService(productRepo, authRepo, config.DB)
 
 	// handler
-	authHandler := handler.NewAuthHandler(authService, config.Validate)
+	authHandler := authHdl.NewAuthHandler(authService, config.Validate)
+	productHandler := productHdl.NewProductHandler(productService, config.Validate)
 
 	routeConfig := routes.RouteConfig{
-		App:         config.App,
-		Maker:       tokenMaker,
-		AuthHandler: &authHandler,
+		App:            config.App,
+		Maker:          tokenMaker,
+		AuthHandler:    &authHandler,
+		ProductHandler: &productHandler,
 	}
 
 	routeConfig.Setup()

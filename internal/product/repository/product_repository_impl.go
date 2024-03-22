@@ -50,7 +50,7 @@ func (p *productRepository) FindById(id string) (*entity.Product, error) {
 
 func (p *productRepository) Search(userId string, params *model.ProductSearchParams) (*[]entity.Product, int64, error) {
 	var products *[]entity.Product
-	var count int64 = 0
+	var total int64 = 0
 
 	filter := p.filterSearchQuery(userId, params)
 
@@ -58,11 +58,11 @@ func (p *productRepository) Search(userId string, params *model.ProductSearchPar
 		return nil, 0, err
 	}
 
-	if err := p.DB.Model(&entity.Product{}).Scopes(filter).Count(&count).Error; err != nil {
+	if err := p.DB.Model(&entity.Product{}).Scopes(filter).Count(&total).Error; err != nil {
 		return nil, 0, err
 	}
 
-	return products, count, nil
+	return products, total, nil
 }
 
 func (p *productRepository) filterSearchQuery(userId string, params *model.ProductSearchParams) func(tx *gorm.DB) *gorm.DB {

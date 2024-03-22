@@ -54,7 +54,7 @@ func (p *productRepository) Search(userId string, params *model.ProductSearchPar
 
 	filter := p.filterSearchQuery(userId, params)
 
-	if err := p.DB.Model(&entity.Product{}).Scopes(filter).Offset(params.GetOffset()).Limit(params.GetSize()).Find(&products).Error; err != nil {
+	if err := p.DB.Model(&entity.Product{}).Scopes(filter).Preload("User").Offset(params.GetOffset()).Limit(params.GetSize()).Find(&products).Error; err != nil {
 		return nil, 0, err
 	}
 
@@ -68,7 +68,6 @@ func (p *productRepository) Search(userId string, params *model.ProductSearchPar
 func (p *productRepository) filterSearchQuery(userId string, params *model.ProductSearchParams) func(tx *gorm.DB) *gorm.DB {
 	return func(tx *gorm.DB) *gorm.DB {
 		tx = tx.Where("user_id = ?", userId)
-
 		if search := strings.TrimSpace(params.Search); search != "" {
 			search = "%" + search + "%"
 			tx.Where("name LIKE ?", search)

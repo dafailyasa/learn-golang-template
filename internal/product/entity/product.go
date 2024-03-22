@@ -3,6 +3,7 @@ package entity
 import (
 	"time"
 
+	"github.com/dafailyasa/learn-golang-template/internal/auth/entity"
 	"github.com/google/uuid"
 	"gorm.io/datatypes"
 	"gorm.io/gorm"
@@ -16,6 +17,7 @@ type Product struct {
 	Price       float64        `json:"price" gorm:"column:price;type:bigint; notnull"`
 	IsPublished bool           `json:"isPublished" gorm:"column:isPublished;default:false;type:bool;comment:0 = false 1 = true"`
 	UserID      uuid.UUID      `json:"userId" gorm:"size:36"`
+	User        entity.User    `json:"user" gorm:"foreignKey:UserID"`
 	CreatedAt   time.Time      `json:"createdAt" gorm:"column:created_at"`
 	UpdatedAt   time.Time      `json:"updatedAt" gorm:"column:updated_at"`
 }

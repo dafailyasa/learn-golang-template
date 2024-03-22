@@ -58,7 +58,7 @@ func (s *productService) Create(body *model.ProductCreateRequest, email string) 
 	return nil
 }
 
-func (s *productService) Search(email string, params *model.ProductSearchParams) (*[]entity.Product, int64, error) {
+func (s *productService) Search(email string, params *model.ProductSearchParams) ([]model.SearchProductResponse, int64, error) {
 	user, err := s.AuthRepo.FindOneByEmail(email)
 	if err != nil {
 		return nil, 0, err
@@ -67,10 +67,12 @@ func (s *productService) Search(email string, params *model.ProductSearchParams)
 	if user == nil {
 		return nil, 0, customErr.ErrUserNotFound
 	}
-	products, total, err := s.ProductRepo.Search(user.ID.String(), params)
+
+	data, total, err := s.ProductRepo.Search(user.ID.String(), params)
 	if err != nil {
 		return nil, 0, err
 	}
 
+	products := model.ConvertProductsRes(data)
 	return products, total, nil
 }

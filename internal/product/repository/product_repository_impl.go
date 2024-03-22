@@ -1,6 +1,7 @@
 package repository
 
 import (
+	"fmt"
 	"strings"
 
 	"github.com/dafailyasa/learn-golang-template/internal/product/entity"
@@ -69,7 +70,7 @@ func (p *productRepository) filterSearchQuery(userId string, params *model.Produ
 	return func(tx *gorm.DB) *gorm.DB {
 		tx = tx.Where("user_id = ?", userId)
 		if search := strings.TrimSpace(params.Search); search != "" {
-			search = "%" + search + "%"
+			search = fmt.Sprintf("%%%s%%", search) //%search%
 			tx.Where("name LIKE ?", search)
 		}
 

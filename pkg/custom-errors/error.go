@@ -31,4 +31,6 @@ var (
 	ErrUserWasNotFound = errors.New("user was not found")
 	// ErrAccountCurrencyAlreadCreated is returned when user is already have account with same currency
 	ErrAccountCurrencyAlreadCreated = errors.New("account already created with this currency")
+	// ErrAccountWasNotFound is returned when account is not found
+	ErrAccountWasNotFound = errors.New("account was not found")
 )

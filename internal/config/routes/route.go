@@ -31,7 +31,7 @@ func (r *RouteConfig) PublicRoute(v1Prefix fiber.Router) {
 	r.App.Get("/metrics", monitor.New(monitor.Config{Title: "Golang Template Metrics"}))
 
 	// auth route public
-	r.AuthRoutes(v1Prefix)
+	r.authRoutes(v1Prefix)
 }
 
 // protected API with authorization
@@ -40,5 +40,5 @@ func (r *RouteConfig) PrivateRoute(authRoute fiber.Router) {
 		return ctx.Status(fiber.StatusOK).JSON(fiber.Map{"data": ctx.Locals("auth")})
 	})
 
-	authRoute.Post("accounts", r.AccountHandler.CreateAccount)
+	r.accountRoutes(authRoute)
 }

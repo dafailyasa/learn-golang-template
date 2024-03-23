@@ -45,7 +45,7 @@ func (maker *JwtMaker) VerifyToken(token string) (*CustomClaim, error) {
 
 	jwtToken, err := jwt.ParseWithClaims(token, &CustomClaim{}, keyFunc)
 	if err != nil {
-		return nil, err
+		return nil, customErr.ErrInvalidToken
 	}
 
 	claims, ok := jwtToken.Claims.(*CustomClaim)

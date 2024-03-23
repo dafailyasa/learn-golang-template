@@ -6,4 +6,6 @@ import (
 
 type AccountService interface {
 	CreateAccount(body *model.CreateAccountRequest, email string) (*model.CreateAccountResponse, error)
+	FindAccounts(email string) ([]model.CreateAccountResponse, error)
+	FindAccountDetail(id string, email string) (*model.CreateAccountResponse, error)
 }

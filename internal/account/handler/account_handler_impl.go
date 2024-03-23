@@ -1,8 +1,6 @@
 package handler
 
 import (
-	"fmt"
-
 	"github.com/dafailyasa/learn-golang-template/internal/account/model"
 	"github.com/dafailyasa/learn-golang-template/internal/account/service"
 	"github.com/dafailyasa/learn-golang-template/pkg/token"
@@ -30,7 +28,6 @@ func (h *accountHandler) CreateAccount(ctx *fiber.Ctx) error {
 	}
 
 	if err := h.Validator.ValidateStruct(body); len(err) > 0 {
-		fmt.Println(err)
 		return ctx.Status(fiber.StatusUnprocessableEntity).JSON(util.ApiResponse{Errors: err})
 	}
 
@@ -47,4 +44,30 @@ func (h *accountHandler) CreateAccount(ctx *fiber.Ctx) error {
 	}
 
 	return ctx.Status(fiber.StatusCreated).JSON(util.ApiResponse{Data: account})
+}
+
+func (h *accountHandler) UserAccounts(ctx *fiber.Ctx) error {
+	authLocals := ctx.Locals("auth")
+	auth := authLocals.(*token.CustomClaim)
+
+	accounts, err := h.AccountService.FindAccounts(auth.Email)
+	if err != nil {
+		return ctx.Status(fiber.StatusBadRequest).JSON(util.ApiResponse{Errors: err.Error()})
+	}
+
+	return ctx.Status(fiber.StatusOK).JSON(util.ApiResponse{Data: accounts})
+}
+
+func (h *accountHandler) AccountDetail(ctx *fiber.Ctx) error {
+	id := ctx.Params("id", "")
+
+	authLocals := ctx.Locals("auth")
+	auth := authLocals.(*token.CustomClaim)
+
+	account, err := h.AccountService.FindAccountDetail(id, auth.Email)
+	if err != nil {
+		return ctx.Status(fiber.StatusBadRequest).JSON(util.ApiResponse{Errors: err.Error()})
+	}
+
+	return ctx.Status(fiber.StatusOK).JSON(util.ApiResponse{Data: account})
 }

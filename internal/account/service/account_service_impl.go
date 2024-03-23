@@ -57,3 +57,56 @@ func (s *accountService) CreateAccount(body *model.CreateAccountRequest, email s
 		CreatedAt: account.CreatedAt,
 	}, nil
 }
+
+func (s *accountService) FindAccounts(email string) ([]model.CreateAccountResponse, error) {
+	user, err := s.AuthRepository.FindOneByEmail(email)
+	if err != nil {
+		if ok := errors.Is(err, gorm.ErrRecordNotFound); ok {
+			return nil, customErr.ErrUserNotFound
+		}
+		return nil, err
+	}
+
+	data, err := s.AccountRepository.FindAccountsByUser(user.ID.String())
+	if err != nil {
+		return nil, err
+	}
+
+	var accounts []model.CreateAccountResponse
+	for _, d := range *data {
+		mappedData := model.CreateAccountResponse{
+			ID:        d.ID,
+			Balance:   d.Balance,
+			Currency:  d.Currency,
+			CreatedAt: d.CreatedAt,
+		}
+		accounts = append(accounts, mappedData)
+	}
+
+	return accounts, nil
+}
+
+func (s *accountService) FindAccountDetail(id string, email string) (*model.CreateAccountResponse, error) {
+	user, err := s.AuthRepository.FindOneByEmail(email)
+	if err != nil {
+		if ok := errors.Is(err, gorm.ErrRecordNotFound); ok {
+			return nil, customErr.ErrUserNotFound
+		}
+		return nil, err
+	}
+
+	data, err := s.AccountRepository.FindAccountDetail(id, user.ID.String())
+	if err != nil {
+		if ok := errors.Is(err, gorm.ErrRecordNotFound); ok {
+			return nil, customErr.ErrAccountWasNotFound
+		}
+		return nil, err
+	}
+
+	return &model.CreateAccountResponse{
+		ID:        data.ID,
+		Balance:   data.Balance,
+		Currency:  data.Currency,
+		CreatedAt: data.CreatedAt,
+	}, nil
+}

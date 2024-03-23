@@ -3,13 +3,13 @@ package config
 import (
 	"fmt"
 
+	accountHdl "github.com/dafailyasa/learn-golang-template/internal/account/handler"
+	accountRepo "github.com/dafailyasa/learn-golang-template/internal/account/repository"
+	accountService "github.com/dafailyasa/learn-golang-template/internal/account/service"
 	authHdl "github.com/dafailyasa/learn-golang-template/internal/auth/handler"
-	auth "github.com/dafailyasa/learn-golang-template/internal/auth/repository"
+	authRepo "github.com/dafailyasa/learn-golang-template/internal/auth/repository"
 	authService "github.com/dafailyasa/learn-golang-template/internal/auth/service"
 	"github.com/dafailyasa/learn-golang-template/internal/config/routes"
-	productHdl "github.com/dafailyasa/learn-golang-template/internal/product/handler"
-	product "github.com/dafailyasa/learn-golang-template/internal/product/repository"
-	"github.com/dafailyasa/learn-golang-template/internal/product/service"
 	"github.com/dafailyasa/learn-golang-template/pkg/logger"
 	"github.com/dafailyasa/learn-golang-template/pkg/token"
 	"github.com/dafailyasa/learn-golang-template/pkg/validator"
@@ -33,22 +33,22 @@ func Bootstrap(config *BootstrapConfig) {
 	}
 
 	// repository
-	authRepo := auth.NewAuthRepository(config.DB)
-	productRepo := product.NewProductRepository(config.DB)
+	authRepo := authRepo.NewAuthRepository(config.DB)
+	accountRepo := accountRepo.NewAccountRepository(config.DB)
 
 	// service
 	authService := authService.NewAuthService(authRepo, config.DB, tokenMaker, config.Config)
-	productService := service.NewProductService(productRepo, authRepo, config.DB)
+	accountService := accountService.NewAccountService(authRepo, accountRepo, config.DB)
 
 	// handler
 	authHandler := authHdl.NewAuthHandler(authService, config.Validate)
-	productHandler := productHdl.NewProductHandler(productService, config.Validate)
+	accountHandler := accountHdl.NewAccountHandler(accountService, *config.Validate)
 
 	routeConfig := routes.RouteConfig{
 		App:            config.App,
 		Maker:          tokenMaker,
-		AuthHandler:    &authHandler,
-		ProductHandler: &productHandler,
+		AuthHandler:    authHandler,
+		AccountHandler: accountHandler,
 	}
 
 	routeConfig.Setup()

@@ -13,8 +13,8 @@ type authHandler struct {
 	Validator   validator.ValidatorApplication
 }
 
-func NewAuthHandler(authService service.AuthService, validate validator.ValidatorApplication) authHandler {
-	return authHandler{
+func NewAuthHandler(authService service.AuthService, validate validator.ValidatorApplication) *authHandler {
+	return &authHandler{
 		AuthService: authService,
 		Validator:   validate,
 	}

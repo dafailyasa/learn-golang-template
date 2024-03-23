@@ -5,8 +5,8 @@ import (
 	"log"
 	"time"
 
+	accountEntity "github.com/dafailyasa/learn-golang-template/internal/account/entity"
 	authEntity "github.com/dafailyasa/learn-golang-template/internal/auth/entity"
-	productEntity "github.com/dafailyasa/learn-golang-template/internal/product/entity"
 	"github.com/spf13/viper"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
@@ -41,7 +41,7 @@ func NewDatabase(viper *viper.Viper) *gorm.DB {
 	// auth migration
 	autoMigrate := viper.GetBool("database.autoMigration")
 	if autoMigrate {
-		err := db.AutoMigrate(&authEntity.User{}, &productEntity.Product{})
+		err := db.AutoMigrate(&authEntity.User{}, &accountEntity.Account{})
 		if err != nil {
 			log.Fatalf("Failed to run auto migration: %v", err)
 		}

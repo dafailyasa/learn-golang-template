@@ -20,7 +20,7 @@ var _ AuthRepository = (*authRepository)(nil)
 func (r *authRepository) FindOneByEmail(email string) (*entity.User, error) {
 	var user entity.User
 
-	if err := r.DB.Model(&entity.User{}).Where("email = ?", email).Find(&user).Error; err != nil {
+	if err := r.DB.Model(&entity.User{}).Where("email = ?", email).First(&user).Error; err != nil {
 		return &user, err
 	}
 

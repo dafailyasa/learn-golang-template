@@ -1,13 +1,15 @@
 package customErr
 
-import "errors"
+import (
+	"errors"
+)
 
 var (
-	// errInvalidToken is returned when access token was invalid
+	// ErrInvalidToken is returned when access token was invalid
 	ErrInvalidToken = errors.New("invalid token")
-	// errTokenExpired is returned when access token was expired
+	// ErrTokenExpired is returned when access token was expired
 	ErrTokenExpired = errors.New("token has expired")
-	// ErrExpiredToken is returned when access token was expired
+	// ErrEmailDuplicate ErrExpiredToken is returned when access token was expired
 	ErrEmailDuplicate = errors.New("email has been taken, please use another email")
 	// ErrIncorrectPassword is returned when password inccorect
 	ErrIncorrectPassword = errors.New("incorrect password")
@@ -27,4 +29,8 @@ var (
 	ErrUnsupportAuthType = errors.New("unsupported authorization type")
 	// ErrUserWasNotFound is returned when user is not found
 	ErrUserWasNotFound = errors.New("user was not found")
+	// ErrAccountCurrencyAlreadCreated is returned when user is already have account with same currency
+	ErrAccountCurrencyAlreadCreated = errors.New("account already created with this currency")
+	// ErrAccountWasNotFound is returned when account is not found
+	ErrAccountWasNotFound = errors.New("account was not found")
 )

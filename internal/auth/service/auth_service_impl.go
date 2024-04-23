@@ -15,12 +15,12 @@ import (
 
 type authService struct {
 	DB         *gorm.DB
-	AuthRepo   repository.AuthRepository
+	AuthRepo   *repository.AuthRepository
 	Config     *viper.Viper
 	TokenMaker token.Maker
 }
 
-func NewAuthService(authRepo repository.AuthRepository, db *gorm.DB, token token.Maker, config *viper.Viper) *authService {
+func NewAuthService(authRepo *repository.AuthRepository, db *gorm.DB, token token.Maker, config *viper.Viper) *authService {
 	return &authService{
 		AuthRepo:   authRepo,
 		DB:         db,
@@ -81,5 +81,4 @@ func (s *authService) Login(body *model.AuthLoginRequest) (*model.LoginUserRespo
 		RefreshToken:          refreshToken,
 		RefreshTokenExpiredAt: refreshTokenPayload.ExpiresAt.Time,
 	}, nil
-
 }

@@ -1,9 +1,9 @@
 package routes
 
 import (
+	accountHdl "github.com/dafailyasa/learn-golang-template/internal/account/handler"
 	authHdl "github.com/dafailyasa/learn-golang-template/internal/auth/handler"
 	"github.com/dafailyasa/learn-golang-template/internal/config/routes/middlewares"
-	productHdl "github.com/dafailyasa/learn-golang-template/internal/product/handler"
 	"github.com/dafailyasa/learn-golang-template/pkg/token"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/monitor"
@@ -13,7 +13,7 @@ type RouteConfig struct {
 	App            *fiber.App
 	Maker          token.Maker
 	AuthHandler    authHdl.AuthHandler
-	ProductHandler productHdl.ProductHandler
+	AccountHandler accountHdl.AccountHandler
 }
 
 func (r *RouteConfig) Setup() {
@@ -31,7 +31,7 @@ func (r *RouteConfig) PublicRoute(v1Prefix fiber.Router) {
 	r.App.Get("/metrics", monitor.New(monitor.Config{Title: "Golang Template Metrics"}))
 
 	// auth route public
-	r.AuthRoutes(v1Prefix)
+	r.authRoutes(v1Prefix)
 }
 
 // protected API with authorization
@@ -40,5 +40,5 @@ func (r *RouteConfig) PrivateRoute(authRoute fiber.Router) {
 		return ctx.Status(fiber.StatusOK).JSON(fiber.Map{"data": ctx.Locals("auth")})
 	})
 
-	r.ProductRoutes(authRoute)
+	r.accountRoutes(authRoute)
 }

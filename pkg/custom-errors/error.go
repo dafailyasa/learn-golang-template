@@ -5,11 +5,11 @@ import (
 )
 
 var (
-	// errInvalidToken is returned when access token was invalid
+	// ErrInvalidToken is returned when access token was invalid
 	ErrInvalidToken = errors.New("invalid token")
-	// errTokenExpired is returned when access token was expired
+	// ErrTokenExpired is returned when access token was expired
 	ErrTokenExpired = errors.New("token has expired")
-	// ErrExpiredToken is returned when access token was expired
+	// ErrEmailDuplicate ErrExpiredToken is returned when access token was expired
 	ErrEmailDuplicate = errors.New("email has been taken, please use another email")
 	// ErrIncorrectPassword is returned when password inccorect
 	ErrIncorrectPassword = errors.New("incorrect password")

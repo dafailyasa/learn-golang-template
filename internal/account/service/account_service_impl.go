@@ -13,13 +13,13 @@ import (
 
 type accountService struct {
 	AccountRepository accountRepo.AccountRepository
-	AuthRepository    authRepo.AuthRepository
+	AuthRepository    *authRepo.AuthRepository
 	DB                *gorm.DB
 }
 
 var _ AccountService = (*accountService)(nil)
 
-func NewAccountService(authRepository authRepo.AuthRepository, accountRepository accountRepo.AccountRepository, db *gorm.DB) *accountService {
+func NewAccountService(authRepository *authRepo.AuthRepository, accountRepository accountRepo.AccountRepository, db *gorm.DB) *accountService {
 	return &accountService{
 		AccountRepository: accountRepository,
 		AuthRepository:    authRepository,

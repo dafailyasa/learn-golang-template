@@ -2,10 +2,12 @@ package repository
 
 import (
 	"github.com/dafailyasa/learn-golang-template/internal/account/entity"
+	repository "github.com/dafailyasa/learn-golang-template/pkg/base-repository"
 	"gorm.io/gorm"
 )
 
 type accountRepository struct {
+	repository.Repository[entity.Account]
 	DB *gorm.DB
 }
 
